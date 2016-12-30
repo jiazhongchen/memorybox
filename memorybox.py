@@ -33,7 +33,7 @@ def copyFile():
     src1 = '/mnt/usb/students.lst'
     dst1 = '/home/pi/projects/memorybox/students.lst'
     src2 = '/mnt/usb/tsmemory.tar.gz'
-    dst2 = '/home/pi/projects/memorybox/tsmemory.tar.gz'
+    dst2 = '/home/pi/projects/tmp/tsmemory.tar.gz'
     if os.path.isfile(src1) == True:
         print "find the src1 file"
         copyfile(src1, dst1)

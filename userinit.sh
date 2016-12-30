@@ -5,6 +5,18 @@ TEMPDIR='/home/pi/projects/tmp/'
 ZIPFILE='tsmemory.tar.gz'
 SERVICE='/home/pi/projects/memorybox/memorybox.py'
 
+if [ -d $WORKDIR ]; then
+    echo "work dir exists"
+else
+    mkdir -p $WORDDIR
+fi
+
+if [ -d $TEMPDIR ]; then
+    echo "temp dir exists"
+else
+    mkdir -p $TEMPDIR
+fi
+
 if [ -f $TEMPDIR/$ZIPFILE ]; then
     cd $TEMPDIR
     tar xvzf $ZIPFILE
@@ -20,7 +32,6 @@ fi
 
 while [ 1 ]
 do
-    sleep 30s
     if ps aux | grep -v grep | grep $SERVICE > /dev/null
     then    
         echo "$SERVICE is running"
@@ -28,6 +39,7 @@ do
         echo "service is not running"
         python $SERVICE &
     fi
+    sleep 30s
 done
 
 
