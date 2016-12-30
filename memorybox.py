@@ -16,8 +16,7 @@ import commands
 from gpiozero import LED
 from shutil import copyfile
 
-#import urllib2
-#import fcntl, socket, struct
+VERSION=10 #1.0
 
 cardID=''
 USBStatus = False
@@ -39,9 +38,15 @@ def copyFile():
         copyfile(src1, dst1)
         print "file copied, now you can safely unplug the usb"
         blinkGreenLED(2)
+        eventType=240
+        eventCode=1
+        sendEventCalamp(ser2, eventType, eventCode)
     else:
         print "src1 not found"
         blinkRedLED(2)
+        eventType=240
+        eventCode=2
+        sendEventCalamp(ser2, eventType, eventCode)
 
     time.sleep(5)
     if os.path.isfile(src2) == True:
@@ -49,6 +54,11 @@ def copyFile():
         if os.path.isdir('home/pi/projects/memorybox/temp') == False:
             os.system('mkdir -p /home/pi/projecst/memorybox/temp')
         copyfile(src2, dst2)
+
+        eventType=244
+        eventCode=0
+        sendEventCalamp(ser2, eventType, eventCode)
+        
         print "file copied, now you can safely unplug the usb"
         blinkGreenLED(3)
     else:
@@ -123,6 +133,16 @@ def checkUart1():
             cardID=x[1]+x[2]+x[5]+x[6]+x[7]+x[8]+x[9]+x[10]
         time.sleep(0.5)
 
+def sendEventCalamp(calampPort, eventType, eventCode, payload=''):
+	str = "at$app msg "
+	str += "ZZ"
+	str += "%02x"%eventtype
+	str += "%02x"%eventcode
+	str += payload
+	str += " 1\r\n"
+	print str
+	calampPort.write(str)
+
 def main():
 
     global cardID
@@ -137,18 +157,34 @@ def main():
         """
         check if any card reading is happening
         """
+        now = time.time()
+
         if cardID:
+            eventType = 177
             if cardID in open('/home/pi/projects/memorybox/students.lst').read():
                 print cardID + " valid"
-                #blinkGreenLED(3)
+                eventcode = 1
                 turnOnGreenLED()
             else:
                 print cardID + " invalid"
-                #blinkRedLED(3)
+                eventcode = 0
                 turnOnRedLED()
+            payload = cardID
+            sendEventCalamp(ser2, eventType, eventCode, payload)
             cardID=''
 
         time.sleep(1)
+
+        if time.time() - new > 300:
+            print '5 min passed'
+            """
+            send heart beat event
+            """
+            eventtype = 248
+            eventcode = 0
+            payload = VERSION
+            sendEventCalamp(ser2, eventType, eventCode, payload)
+            now = time.time()
 
 if __name__ == '__main__':
     main()
