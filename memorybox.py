@@ -136,8 +136,8 @@ def checkUart1():
 def sendEventCalamp(calampPort, eventType, eventCode, payload=''):
 	str = "at$app msg "
 	str += "ZZ"
-	str += "%02x"%eventtype
-	str += "%02x"%eventcode
+	str += "%02x"%eventType
+	str += "%02x"%eventCode
 	str += payload
 	str += " 1\r\n"
 	print str
@@ -175,7 +175,7 @@ def main():
 
         time.sleep(1)
 
-        if time.time() - new > 300:
+        if time.time() - now > 300:
             print '5 min passed'
             """
             send heart beat event
