@@ -24,6 +24,7 @@ if [ -f $TEMPDIR/$ZIPFILE ]; then
         echo "unzip success"
         rm $ZIPFILE
         mv $TEMPDIR/* $WORKDIR/
+        chmod a+x $WORKDIR/userinit.sh
     else
         echo "oh, crap"
         rm $ZIPFILE
