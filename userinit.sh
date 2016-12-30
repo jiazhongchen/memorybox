@@ -1,7 +1,7 @@
-#!/bin/sh
+#;!/bin/sh
 
-WORDDIR='/home/pi/projects/memorybox/'
-TEMPDIR='/home/pi/projects/tmp'
+WORKDIR='/home/pi/projects/memorybox/'
+TEMPDIR='/home/pi/projects/tmp/'
 ZIPFILE='tsmemory.tar.gz'
 SERVICE='/home/pi/projects/memorybox/memorybox.py'
 
@@ -11,7 +11,7 @@ if [ -f $TEMPDIR/$ZIPFILE ]; then
     if [ $? -eq 0 ]; then
         echo "unzip success"
         rm $ZIPFILE
-        mv $TEMPFILE/* $WORDDIR/
+        mv $TEMPDIR/* $WORKDIR/
     else
         echo "oh, crap"
         rm $ZIPFILE
