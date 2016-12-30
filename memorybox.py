@@ -50,7 +50,7 @@ def copyFile():
 
     time.sleep(5)
     if os.path.isfile(src2) == True:
-        print "find the src1 file"
+        print "find the src2 file"
         if os.path.isdir('home/pi/projects/tmp') == False:
             os.system('mkdir -p /home/pi/projects/tmp')
         copyfile(src2, dst2)
@@ -60,27 +60,27 @@ def copyFile():
         sendEventCalamp(ser2, eventType, eventCode)
         
         print "file copied, now you can safely unplug the usb"
-        blinkGreenLED(3)
+        blinkGreenLED(10, 0.5)
     else:
         print "src2 not found"
-        blinkRedLED(3)
+        blinkRedLED(10, 0.5)
     time.sleep(5)
 
-def blinkRedLED(sec):
+def blinkRedLED(sec, freq=1):
     print "blink Red LED for " + str(sec) + " seconds"
     for x in range(0, sec):
         redLED.on()
-        time.sleep(1)
+        time.sleep(freq)
         redLED.off()
-        time.sleep(1)
+        time.sleep(freq)
 
-def blinkGreenLED(sec):
+def blinkGreenLED(sec, freq=1):
     print "blink Green LED for " + str(sec) + " seconds"
     for x in range(0, sec):
         greenLED.on()
-        time.sleep(1)
+        time.sleep(freq)
         greenLED.off()
-        time.sleep(1)
+        time.sleep(freq)
 
 def turnOnRedLED():
     greenLED.off()
