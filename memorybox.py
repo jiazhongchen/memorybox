@@ -78,7 +78,7 @@ def turnOnRedLED():
 
 def turnOnGreenLED():
     redLED.off()
-    greenLED.on()()
+    greenLED.on()
 
 def checkUSB():
 
