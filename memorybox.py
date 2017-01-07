@@ -139,14 +139,14 @@ def checkUart1():
         time.sleep(0.5)
 
 def sendEventCalamp(calampPort, eventType, eventCode, payload=''):
-	str = "at$app msg "
-	str += "ZZ"
-	str += "%02x"%eventType
-	str += "%02x"%eventCode
-	str += payload
-	str += " 1\r\n"
-	print str
-	calampPort.write(str)
+    str = "at$app msg "
+    str += "ZZ"
+    str += "%02X"%eventType
+    str += "%02X"%eventCode
+    str += payload
+    str += " 1\r\n"
+    print str
+    calampPort.write(str)
 
 def main():
 
