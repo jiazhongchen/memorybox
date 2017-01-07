@@ -157,12 +157,12 @@ def main():
     thread2.start()
 
     time.sleep(1)
+    now = time.time()
 
     while True:
         """
         check if any card reading is happening
         """
-        now = time.time()
 
         if cardID:
             eventType = CARDID
@@ -186,7 +186,7 @@ def main():
             send heart beat event
             """
             eventType = HEARTBEAT
-            eventCodd = 0
+            eventCode = 0
             payload = VERSION
             sendEventCalamp(ser2, eventType, eventCode, payload)
             now = time.time()
