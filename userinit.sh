@@ -37,7 +37,7 @@ do
     then    
         echo "$SERVICE is running"
     else
-        echo "service is not running"
+        echo "$SERVICE is not running"
         python $SERVICE &
     fi
     sleep 30s

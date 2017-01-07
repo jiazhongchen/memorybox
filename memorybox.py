@@ -18,6 +18,11 @@ from shutil import copyfile
 
 VERSION=10 #1.0
 
+STUDENTSLIST=100
+ZIPFILE=101
+HEARTBEAT=102
+CARDID=177
+
 cardID=''
 USBStatus = False
 lastUSBStatus = False
@@ -34,35 +39,35 @@ def copyFile():
     src2 = '/mnt/usb/tsmemory.tar.gz'
     dst2 = '/home/pi/projects/tmp/tsmemory.tar.gz'
     if os.path.isfile(src1) == True:
-        print "find the src1 file"
+        print "find the students list"
         copyfile(src1, dst1)
         print "file copied, now you can safely unplug the usb"
         blinkGreenLED(2)
-        eventType=240
+        eventType=STUDENTSLIST
         eventCode=1
         sendEventCalamp(ser2, eventType, eventCode)
     else:
-        print "src1 not found"
+        print "students list not found"
         blinkRedLED(2)
-        eventType=240
+        eventType=STUDENTSLIST
         eventCode=2
         sendEventCalamp(ser2, eventType, eventCode)
 
     time.sleep(5)
     if os.path.isfile(src2) == True:
-        print "find the src2 file"
+        print "find the memory file"
         if os.path.isdir('home/pi/projects/tmp') == False:
             os.system('mkdir -p /home/pi/projects/tmp')
         copyfile(src2, dst2)
 
-        eventType=244
+        eventType=ZIPFILE
         eventCode=0
         sendEventCalamp(ser2, eventType, eventCode)
         
         print "file copied, now you can safely unplug the usb"
         blinkGreenLED(10, 0.5)
     else:
-        print "src2 not found"
+        print "zip file not found"
         blinkRedLED(10, 0.5)
     time.sleep(5)
 
@@ -160,14 +165,14 @@ def main():
         now = time.time()
 
         if cardID:
-            eventType = 177
+            eventType = CARDID
             if cardID in open('/home/pi/projects/memorybox/students.lst').read():
                 print cardID + " valid"
-                eventcode = 1
+                eventCode = 1
                 turnOnGreenLED()
             else:
                 print cardID + " invalid"
-                eventcode = 0
+                eventCode = 0
                 turnOnRedLED()
             payload = cardID
             sendEventCalamp(ser2, eventType, eventCode, payload)
@@ -180,8 +185,8 @@ def main():
             """
             send heart beat event
             """
-            eventtype = 248
-            eventcode = 0
+            eventType = HEARTBEAT
+            eventCodd = 0
             payload = VERSION
             sendEventCalamp(ser2, eventType, eventCode, payload)
             now = time.time()
