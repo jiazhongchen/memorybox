@@ -16,7 +16,7 @@ import commands
 from gpiozero import LED
 from shutil import copyfile
 
-VERSION=10 #1.0
+VERSION="10" #1.0
 
 STUDENTSLIST=100
 ZIPFILE=101
